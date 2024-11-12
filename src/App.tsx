@@ -1,28 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import './App.css'
-import WebApp from '@twa-dev/sdk'
+
+interface MyComponentProps {
+  children: ReactNode;
+  className: String;
+}
 
 // Custom Card Components
-const Card = ({ children, className = '' }) => (
+const Card = ({ children, className = '' }: MyComponentProps, ) => (
   <div className={`bg-white rounded-lg shadow-lg overflow-hidden ${className}`}>
     {children}
   </div>
 );
 
-const CardHeader = ({ children }) => (
+const CardHeader = ({ children  }: MyComponentProps) => (
   <div className="px-6 py-4 border-b border-gray-200">
     {children}
   </div>
 );
 
-const CardTitle = ({ children, className = '' }) => (
+const CardTitle = ({ children, className = '' }: MyComponentProps) => (
   <h2 className={`text-xl font-semibold ${className}`}>
     {children}
   </h2>
 );
 
-const CardContent = ({ children }) => (
+const CardContent = ({ children  }: MyComponentProps) => (
   <div className="px-6 py-4">
     {children}
   </div>
@@ -73,7 +77,7 @@ const ChartIcon = () => (
 
 const CoffeeTrackerApp = () => {
   const [todayCount, setTodayCount] = useState(0);
-  const [weeklyData, setWeeklyData] = useState([]);
+  const [weeklyData, setWeeklyData] = useState([{ date:"", cups:0 }]);
   const [showStats, setShowStats] = useState(false);
 
   useEffect(() => {
@@ -108,13 +112,13 @@ const CoffeeTrackerApp = () => {
     <div className="flex flex-col items-center p-4 min-h-screen">
       {/* Main Counter */}
       <Card className="w-full max-w-md mb-4">
-        <CardHeader>
+        <CardHeader className="">
           <CardTitle className="text-center flex items-center justify-center gap-2">
             <span className="text-blue-500"><CoffeeIcon /></span>
             Today's Coffee Count
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="">
           <div className="flex items-center justify-center gap-4">
             <button
               onClick={handleDecrement}
@@ -146,13 +150,13 @@ const CoffeeTrackerApp = () => {
       {/* Weekly Stats */}
       {showStats && (
         <Card className="w-full max-w-md">
-          <CardHeader>
+          <CardHeader className="">
             <CardTitle className="text-center flex items-center justify-center gap-2">
               <span className="text-blue-500"><CalendarIcon /></span>
               Weekly Overview
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="">
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={weeklyData}>
